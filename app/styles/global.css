@@ -1,0 +1,176 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 224 71.4% 4.1%;
+    --card: 0 0% 100%;
+    --card-foreground: 224 71.4% 4.1%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 224 71.4% 4.1%;
+    --primary: 220.9 39.3% 11%;
+    --primary-foreground: 210 20% 98%;
+    --secondary: 220 14.3% 95.9%;
+    --secondary-foreground: 220.9 39.3% 11%;
+    --muted: 220 14.3% 95.9%;
+    --muted-foreground: 220 8.9% 46.1%;
+    --accent: 220 14.3% 95.9%;
+    --accent-foreground: 220.9 39.3% 11%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 20% 98%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 224 71.4% 4.1%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+  }
+  .dark {
+    --background: 224 71.4% 4.1%;
+    --foreground: 210 20% 98%;
+    --card: 224 71.4% 4.1%;
+    --card-foreground: 210 20% 98%;
+    --popover: 224 71.4% 4.1%;
+    --popover-foreground: 210 20% 98%;
+    --primary: 210 20% 98%;
+    --primary-foreground: 220.9 39.3% 11%;
+    --secondary: 215 27.9% 16.9%;
+    --secondary-foreground: 210 20% 98%;
+    --muted: 215 27.9% 16.9%;
+    --muted-foreground: 217.9 10.6% 64.9%;
+    --accent: 215 27.9% 16.9%;
+    --accent-foreground: 210 20% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 20% 98%;
+    --border: 215 27.9% 16.9%;
+    --input: 215 27.9% 16.9%;
+    --ring: 216 12.2% 83.9%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+.article-card {
+  @apply bg-gray-800 text-white rounded-lg drop-shadow-md overflow-hidden p-4 flex flex-col justify-between
+         hover:scale-105 hover:shadow-lg transition-transform duration-300 ease-in-out;
+}
+
+.article-card .thumbnail img {
+  @apply w-full h-40 object-cover rounded-md;
+}
+
+.article-card .article-content {
+  @apply flex-1 mt-4 overflow-hidden;
+}
+
+.article-card .article-tag {
+  @apply bg-blue-500 text-white text-xs uppercase font-semibold py-1 px-3 rounded-full mb-2 inline-block;
+}
+
+.article-card .article-title {
+  @apply text-xl font-bold leading-tight hover:text-slate-400;
+}
+
+.article-card .article-description {
+  @apply text-sm text-gray-300 line-clamp-3 leading-relaxed mt-7;
+}
+
+.article-card .article-footer {
+  @apply flex items-center justify-between text-xs text-gray-400 border-t border-gray-700 pt-1 mt-16;
+}
+
+.tabs-container {
+  @apply flex items-center justify-between bg-gray-800 rounded-xl p-2 w-full mx-auto;
+}
+
+.tabs {
+  @apply flex items-center list-none p-0 m-0 mr-4;
+}
+
+.tab-item {
+  @apply mr-4; /* Tabs 之间的间距 */
+}
+
+.tab-label {
+  @apply inline-block bg-gradient-to-r  text-white hover:text-slate-400 font-bold rounded-lg;
+  @apply py-1 px-4 text-base; /* 控制内边距和字体大小 */
+  background: linear-gradient(
+    130deg,
+    rgb(36, 198, 220),
+    rgb(84, 51, 255) 41.07%,
+    rgb(255, 0, 153) 76.05%
+  );
+}
+
+.dropdown-icon {
+  @apply ml-auto text-xl text-gray-400; /* 自动占位，靠右对齐，控制图标大小和颜色 */
+}
+
+.feature-article {
+  @apply bg-gray-800 rounded-2xl overflow-hidden shadow-lg p-8 flex relative;
+  @apply hover:scale-105 hover:shadow-lg transition-transform duration-300 ease-in-out;
+}
+
+.feature-article .feature-thumbnail {
+  @apply relative w-1/3 h-64 rounded-lg overflow-hidden;
+}
+
+.feature-article .feature-thumbnail-overlay {
+  @apply absolute inset-0 rounded-md;
+  background: linear-gradient(
+    130deg,
+    rgb(36, 198, 220),
+    rgb(84, 51, 255) 41.07%,
+    rgb(255, 0, 153) 76.05%
+  );
+  opacity: 0.5;
+}
+
+.feature-article .feature-gradient {
+  @apply absolute inset-y-0 w-8 bg-gradient-to-r;
+}
+
+.feature-article .feature-content {
+  @apply flex-1 ml-6 text-white;
+}
+
+.feature-article .article-tag {
+  @apply flex items-center text-red-600 font-medium;
+}
+
+.feature-article .article-title {
+  @apply text-3xl font-bold leading-snug hover:text-cyan-400 transition-colors duration-300;
+}
+
+.feature-article .article-description {
+  @apply text-gray-400 mt-4 leading-relaxed line-clamp-3;
+}
+
+.feature-article .article-footer {
+  @apply mt-6 flex items-center space-x-3;
+}
+
+.feature-article .avatar-hover {
+  @apply w-10 h-10 rounded-full hover:opacity-50 cursor-pointer;
+}
