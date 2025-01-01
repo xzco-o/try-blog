@@ -13,7 +13,7 @@ export default function GamesPage() {
   ];
 
   return (
-    <div className="bg-gray-900 text-gray-300 min-h-screen flex">
+    <div className="bg-gray-900 text-gray-300 min-h-screen flex animate-fade-in">
       {/* 游戏区域 */}
       <div className="w-3/4 flex items-center justify-center p-6">
         {currentGame === "snake" && <SnakeGame />}

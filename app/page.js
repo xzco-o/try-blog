@@ -2,7 +2,7 @@ import React from "react";
 
 import FeatureSection from "./ui/home/FeatureSection";
 import ArticleGrid from "./ui/home/ArticleGrid";
-import Sidebar from "./ui/Sidebar";
+import Sidebar from "./ui/home/Sidebar";
 
 export default function HomePage() {
   return (
