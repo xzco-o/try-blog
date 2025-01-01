@@ -1,7 +1,9 @@
 export default function Footer() {
   return (
-    <footer className="bg-gray-800 p-1 text-center text-gray-500">
-      <p>© 2024 Huix. All Rights Reserved. Powered by Next.js</p>
+    <footer className="p-4 border-t border-gray-700">
+      <div className="max-w-6xl mx-auto text-center text-gray-400">
+        © 2024 Huix. All Rights Reserved.
+      </div>
     </footer>
   );
 }

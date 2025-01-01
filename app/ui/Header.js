@@ -13,7 +13,7 @@ export default function Header({ author }) {
   const pages = useMemo(
     () => [
       { name: "Home", path: "/" },
-      { name: "Blog", path: "/blog" },
+      { name: "Game", path: "/game" },
       { name: "About", path: "/about" },
       // 根据需要添加更多页面
     ],
