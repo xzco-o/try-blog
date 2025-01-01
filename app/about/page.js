@@ -1,4 +1,13 @@
 import Image from "next/image";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faTwitter,
+  faYoutube,
+  faGithub,
+  faBilibili,
+  faBluesky,
+} from "@fortawesome/free-brands-svg-icons";
+import { Link } from "lucide-react";
 
 export default function AboutPage() {
   return (
@@ -34,36 +43,36 @@ export default function AboutPage() {
 
         {/* 下半部分：社交链接 */}
         <div className="bg-gray-700 text-gray-400 py-6 px-8 flex items-center justify-center space-x-4">
-          <a
-            href="#"
+          <Link
+            href="https://x.com/home?lang=en"
             className="text-pink-400 hover:text-white transition duration-200"
           >
-            <i className="fab fa-behance text-2xl"></i>
-          </a>
-          <a
-            href="#"
+            <FontAwesomeIcon icon={faTwitter} className="text-xl" />
+          </Link>
+          <Link
+            href="https://bsky.app/"
             className="text-pink-400 hover:text-white transition duration-200"
           >
-            <i className="fab fa-dribbble text-2xl"></i>
-          </a>
-          <a
-            href="#"
+            <FontAwesomeIcon icon={faBluesky} className="text-xl" />
+          </Link>
+          <Link
+            href="https://www.youtube.com/"
             className="text-pink-400 hover:text-white transition duration-200"
           >
-            <i className="fab fa-twitter text-2xl"></i>
-          </a>
-          <a
-            href="#"
+            <FontAwesomeIcon icon={faYoutube} className="text-xl" />
+          </Link>
+          <Link
+            href="https://www.bilibili.com/"
             className="text-pink-400 hover:text-white transition duration-200"
           >
-            <i className="fab fa-instagram text-2xl"></i>
-          </a>
-          <a
-            href="#"
+            <FontAwesomeIcon icon={faBilibili} className="text-xl" />
+          </Link>
+          <Link
+            href="https://github.com/"
             className="text-pink-400 hover:text-white transition duration-200"
           >
-            <i className="fab fa-linkedin text-2xl"></i>
-          </a>
+            <FontAwesomeIcon icon={faGithub} className="text-xl" />
+          </Link>
         </div>
       </div>
     </div>
