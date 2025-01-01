@@ -6,28 +6,18 @@ import PacmanGame from "../ui/game/Pacman";
 
 export default function GamesPage() {
   const [currentGame, setCurrentGame] = useState("snake");
-  const [leaderboard, setLeaderboard] = useState([
+  const leaderboard = [
     { name: "Alice", score: 120 },
     { name: "Bob", score: 100 },
     { name: "Charlie", score: 80 },
-  ]);
-  const [playerName, setPlayerName] = useState("游客");
-
-  // 添加分数到排行榜
-  const addScore = (score) => {
-    const newLeaderboard = [
-      ...leaderboard,
-      { name: playerName || "游客", score },
-    ].sort((a, b) => b.score - a.score); // 按分数降序排序
-    setLeaderboard(newLeaderboard);
-  };
+  ];
 
   return (
     <div className="bg-gray-900 text-gray-300 min-h-screen flex">
       {/* 游戏区域 */}
       <div className="w-3/4 flex items-center justify-center p-6">
-        {currentGame === "snake" && <SnakeGame onGameOver={addScore} />}
-        {currentGame === "pacman" && <PacmanGame onGameOver={addScore} />}
+        {currentGame === "snake" && <SnakeGame />}
+        {currentGame === "pacman" && <PacmanGame />}
       </div>
 
       {/* 右侧：积分榜 */}
@@ -66,16 +56,6 @@ export default function GamesPage() {
           >
             Pac-Man
           </button>
-        </div>
-        <div className="mt-8">
-          <h3 className="text-xl font-semibold mb-4">Player Name</h3>
-          <input
-            type="text"
-            value={playerName}
-            onChange={(e) => setPlayerName(e.target.value)}
-            placeholder="Enter your name"
-            className="w-full py-2 px-3 rounded-lg bg-gray-700 text-gray-300"
-          />
         </div>
       </div>
     </div>

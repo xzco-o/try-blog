@@ -1,125 +1,135 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+// components/SnakeGame.js
+import { useEffect, useRef, useState } from "react";
 
-const SnakeGame = ({ onGameOver }) => {
+const SnakeGame = () => {
   const canvasRef = useRef(null);
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
-  const [isPaused, setIsPaused] = useState(true);
-  const gridSize = 20;
-  const canvasSize = 400;
-  const snake = useRef([
-    { x: 160, y: 160 },
-    { x: 140, y: 160 },
-    { x: 120, y: 160 },
-  ]);
-  const [food, setFood] = useState({ x: 200, y: 200 });
-  const [direction, setDirection] = useState({ dx: gridSize, dy: 0 });
-  const gameInterval = useRef(null);
-
-  const updateGame = useCallback(
-    (ctx) => {
-      const newSnake = [...snake.current];
-      const head = {
-        x: newSnake[0].x + direction.dx,
-        y: newSnake[0].y + direction.dy,
-      };
-
-      // 检查碰撞
-      if (
-        head.x < 0 ||
-        head.y < 0 ||
-        head.x >= canvasSize ||
-        head.y >= canvasSize ||
-        newSnake.some((segment) => segment.x === head.x && segment.y === head.y)
-      ) {
-        setGameOver(true);
-        setIsPaused(true);
-        if (onGameOver) onGameOver(score);
-        return;
-      }
-
-      newSnake.unshift(head);
-
-      // 吃食物
-      if (head.x === food.x && head.y === food.y) {
-        setScore((prev) => prev + 1);
-        setFood({
-          x: Math.floor(Math.random() * (canvasSize / gridSize)) * gridSize,
-          y: Math.floor(Math.random() * (canvasSize / gridSize)) * gridSize,
-        });
-      } else {
-        newSnake.pop();
-      }
-
-      snake.current = newSnake;
-
-      // 绘制游戏
-      ctx.clearRect(0, 0, canvasSize, canvasSize);
-      ctx.fillStyle = "green";
-      newSnake.forEach((segment) =>
-        ctx.fillRect(segment.x, segment.y, gridSize, gridSize)
-      );
-      ctx.fillStyle = "red";
-      ctx.fillRect(food.x, food.y, gridSize, gridSize);
-    },
-    [canvasSize, direction, food, gridSize, onGameOver, score]
-  );
-
-  const handleKeyDown = useCallback(
-    (e) => {
-      if (e.key === "Enter") {
-        if (gameOver) {
-          startGame();
-        } else {
-          setIsPaused(!isPaused);
-        }
-        return;
-      }
-
-      if (isPaused) return;
-
-      const { dx, dy } = direction;
-      if (e.key === "w" && dy === 0) setDirection({ dx: 0, dy: -gridSize });
-      if (e.key === "s" && dy === 0) setDirection({ dx: 0, dy: gridSize });
-      if (e.key === "a" && dx === 0) setDirection({ dx: -gridSize, dy: 0 });
-      if (e.key === "d" && dx === 0) setDirection({ dx: gridSize, dy: 0 });
-    },
-    [direction, gameOver, gridSize, isPaused]
-  );
+  const [isPaused, setIsPaused] = useState(true); // 游戏初始为暂停状态
 
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
 
-    if (!isPaused && !gameOver) {
-      gameInterval.current = setInterval(() => updateGame(ctx), 100);
-    } else {
-      clearInterval(gameInterval.current);
-    }
-
-    return () => clearInterval(gameInterval.current);
-  }, [isPaused, gameOver, updateGame]);
-
-  useEffect(() => {
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [handleKeyDown]);
-
-  const startGame = () => {
-    setGameOver(false);
-    setScore(0);
-    setFood({
-      x: Math.floor(Math.random() * (canvasSize / gridSize)) * gridSize,
-      y: Math.floor(Math.random() * (canvasSize / gridSize)) * gridSize,
-    });
-    snake.current = [
+    const gridSize = 20;
+    const canvasSize = 400;
+    const snake = [
       { x: 160, y: 160 },
       { x: 140, y: 160 },
       { x: 120, y: 160 },
     ];
-    setDirection({ dx: gridSize, dy: 0 });
-    setIsPaused(false);
-  };
+    let food = { x: 200, y: 200 };
+    let dx = gridSize;
+    let dy = 0;
+    let gameInterval;
+
+    function drawSnake() {
+      ctx.fillStyle = "green";
+      snake.forEach((segment) => {
+        ctx.fillRect(segment.x, segment.y, gridSize, gridSize);
+      });
+    }
+
+    function drawFood() {
+      ctx.fillStyle = "red";
+      ctx.fillRect(food.x, food.y, gridSize, gridSize);
+    }
+
+    function moveSnake() {
+      const head = { x: snake[0].x + dx, y: snake[0].y + dy };
+      snake.unshift(head);
+
+      if (head.x === food.x && head.y === food.y) {
+        setScore((prevScore) => prevScore + 1);
+        food = {
+          x: Math.floor(Math.random() * (canvasSize / gridSize)) * gridSize,
+          y: Math.floor(Math.random() * (canvasSize / gridSize)) * gridSize,
+        };
+      } else {
+        snake.pop();
+      }
+    }
+
+    function checkCollision() {
+      const head = snake[0];
+      if (
+        head.x < 0 ||
+        head.x >= canvasSize ||
+        head.y < 0 ||
+        head.y >= canvasSize
+      ) {
+        return true;
+      }
+      for (let i = 1; i < snake.length; i++) {
+        if (head.x === snake[i].x && head.y === snake[i].y) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    function update() {
+      if (checkCollision()) {
+        setGameOver(true);
+        clearInterval(gameInterval);
+        return;
+      }
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      moveSnake();
+      drawSnake();
+      drawFood();
+    }
+
+    function startGame() {
+      setGameOver(false);
+      setScore(0);
+      snake.length = 3;
+      snake[0] = { x: 160, y: 160 };
+      dx = gridSize;
+      dy = 0;
+      gameInterval = setInterval(update, 100);
+    }
+
+    function handleKeyDown(event) {
+      // 按空格键开始游戏或暂停
+      if (event.key === "Enter" && gameOver === false) {
+        setIsPaused(!isPaused); // 切换暂停状态
+        if (isPaused) {
+          gameInterval = setInterval(update, 100); // 游戏开始
+        } else {
+          clearInterval(gameInterval); // 游戏暂停
+        }
+      }
+
+      // 使用 WASD 控制方向
+      if (!isPaused) {
+        if (event.key === "w" && dy === 0) {
+          dx = 0;
+          dy = -gridSize;
+        } else if (event.key === "s" && dy === 0) {
+          dx = 0;
+          dy = gridSize;
+        } else if (event.key === "a" && dx === 0) {
+          dx = -gridSize;
+          dy = 0;
+        } else if (event.key === "d" && dx === 0) {
+          dx = gridSize;
+          dy = 0;
+        }
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    if (!gameOver && !isPaused) {
+      startGame();
+    }
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      clearInterval(gameInterval);
+    };
+  }, [isPaused, gameOver]);
 
   return (
     <div className="text-center">
@@ -131,10 +141,15 @@ const SnakeGame = ({ onGameOver }) => {
         className="bg-gray-800 border-2 border-white"
       />
       {gameOver && (
-        <p className="text-white mt-4">Game Over! Press Enter to Restart</p>
+        <button
+          onClick={() => setGameOver(false)}
+          className="mt-4 text-white bg-red-600 p-2 rounded"
+        >
+          Restart
+        </button>
       )}
       {isPaused && !gameOver && (
-        <p className="text-white mt-4">Press Enter to Start/Resume</p>
+        <p className="text-white mt-4">Press Enter to Start</p>
       )}
     </div>
   );
